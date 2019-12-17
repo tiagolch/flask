@@ -18,7 +18,7 @@ r2 = Ramais('Artlatex', 'CPD', 'Cristian', '3659')
 r3 = Ramais('Artlatex', 'CPD', 'Emerson', '3688')
 lista = [r1, r2, r3]
 
-@app.route('/Ramais')
+@app.route('/ramais')
 def ramal():
     return render_template('ramais.html', titulo='Listagem de Ramais', lista=lista)
 
@@ -28,7 +28,7 @@ def novo_ramal():
     return render_template('novoRamal.html', titulo='Novo Ramal')
 
 
-@app.route('/criar', methods = ['POST',])
+@app.route('/criar', methods=['POST',])
 def criar():
     empresa = request.form['empresa']
     setor = request.form['setor']
@@ -36,8 +36,8 @@ def criar():
     ramal = request.form['ramal']
     ramais1 = Ramais(empresa, setor, nome, ramal)
     lista.append(ramais1)
-    return render_template('ramais.html', titulo='Ramais', lista=lista)
-    #return redirect('/')
+    #return render_template('ramais.html', titulo='Ramais', lista=lista)
+    return redirect('/ramais')
 
 app.run(debug=True)
 
