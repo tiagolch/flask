@@ -1,8 +1,8 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, session, flash
 from flask_bootstrap import Bootstrap
 
 app = Flask(__name__)
-Bootstrap(app)
+app.secret_key = 'alura'
 
 
 class Ramais:
@@ -37,6 +37,29 @@ def criar():
     ramais1 = Ramais(empresa, setor, nome, ramal)
     lista.append(ramais1)
     #return render_template('ramais.html', titulo='Ramais', lista=lista)
+    return redirect('/ramais')
+
+
+@app.route('/login')
+def login():
+    return render_template('login.html')
+
+
+@app.route('/autenticar', methods=['POST',])
+def autenticar():
+    if 'mestra' == request.form['senha']:
+        session['usuario_logado'] = request.form['usuario']
+        flash(request.form['usuario']+' Logou com Sucesso!')
+        return redirect('/ramais')
+    else:
+        flash('Não logado, tente novamente!' )
+        return redirect('/login')
+
+
+@app.route('/logout')
+def logout():
+    session['usuario_logado'] = None
+    flash('Usuario deslogado!')
     return redirect('/ramais')
 
 app.run(debug=True)
